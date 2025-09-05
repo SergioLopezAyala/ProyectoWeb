@@ -11,7 +11,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>ProyectoWeb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ProyectoWeb</name>
+    <packaging>jar</packaging>
+    <name>ProyectoWeb</name>
 	<description>ProyectoWeb</description>
 	<url/>
 	<licenses>
@@ -33,10 +34,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -112,6 +109,7 @@
 	<build>
 		<plugins>
 			<plugin>
+
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -126,7 +124,8 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
+                <version>3.2.0</version>
+                <configuration>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
