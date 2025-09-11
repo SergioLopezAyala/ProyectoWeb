@@ -43,7 +43,7 @@ jobs:
       run: "echo 'Imagen publicada: ghcr.io/${OWNER_LC}/backend:latest'"
   deploy-onpremise:
     name: Deploy on MicroK8s On-Premise
-    runs-on: dev
+    runs-on: self-hosted
     needs: build-and-publish
 
     steps:
