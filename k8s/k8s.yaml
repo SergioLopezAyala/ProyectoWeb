@@ -7,21 +7,21 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: APP_NAME
-  namespace: NAMESPACE
+  name: proyectoweb
+  namespace: tilines
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: APP_NAME
+      app: proyectoweb
   template:
     metadata:
       labels:
-        app: APP_NAME
+        app: proyectoweb
     spec:
       containers:
-        - name: APP_NAME
-          image: dockerfile   # <- IMAGEN PUBLICADA EN GHCR
+        - name: proyectoweb
+          image: ghcr.io/sergiolopezayala/backend:latest   # <- IMAGEN PUBLICADA EN GHCR
           ports:
             - containerPort: 80
 
@@ -29,11 +29,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: APP_NAME
-  namespace: NAMESPACE
+  name: proyectoweb
+  namespace: tilines
 spec:
   selector:
-    app: APP_NAME
+    app: proyectoweb
   ports:
     - protocol: TCP
       port: 80
@@ -44,20 +44,20 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: APP_NAME
-  namespace: NAMESPACE
+  name: proyectoweb
+  namespace: tilines
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: public   # <- en MicroK8s normalmente es "public" (verifica con `kubectl get ingressclass`)
   rules:
-    - host: 
+    - host:
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: APP_NAME
+                name: proyectoweb
                 port:
                   number: 80
