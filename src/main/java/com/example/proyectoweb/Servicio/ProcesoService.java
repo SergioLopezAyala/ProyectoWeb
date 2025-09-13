@@ -3,31 +3,28 @@ package com.example.proyectoweb.Servicio;
 import com.example.proyectoweb.Dto.ProcesoDto;
 import com.example.proyectoweb.Modelo.Proceso;
 import com.example.proyectoweb.Repo.RepoProceso;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProcesoService {
 
     private final RepoProceso repo;
     private final ModelMapper mapper;
 
-    @Autowired
-    public ProcesoService(RepoProceso repo, ModelMapper mapper) {
-        this.repo = repo;
-        this.mapper = mapper;
-    }
-
     public ProcesoDto crear(ProcesoDto dto) {
-        Proceso e = mapper.map(dto, Proceso.class);
-        e = repo.save(e);
-        return mapper.map(e, ProcesoDto.class);
+        Proceso entity = mapper.map(dto, Proceso.class);
+        entity = repo.save(entity);
+        return mapper.map(entity, ProcesoDto.class);
     }
 
-    public Optional<ProcesoDto> obtenerPorId(Long id) {
+    public Optional<ProcesoDto> obtener(Long id) {
         return repo.findById(id).map(e -> mapper.map(e, ProcesoDto.class));
     }
 

@@ -3,25 +3,20 @@ package com.example.proyectoweb.Servicio;
 import com.example.proyectoweb.Dto.OrganizationDto;
 import com.example.proyectoweb.Modelo.Organization;
 import com.example.proyectoweb.Repo.RepoOrganization;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class OrganizationService {
 
     private final RepoOrganization repo;
     private final ModelMapper mapper;
-
-    @Autowired
-    public OrganizationService(RepoOrganization repo, ModelMapper mapper) {
-        this.repo = repo;
-        this.mapper = mapper;
-    }
-
-    // ==== CRUD básico ====
 
     public OrganizationDto crear(OrganizationDto dto) {
         Organization e = mapper.map(dto, Organization.class);
@@ -29,7 +24,7 @@ public class OrganizationService {
         return mapper.map(e, OrganizationDto.class);
     }
 
-    public Optional<OrganizationDto> obtenerPorId(Long id) {
+    public Optional<OrganizationDto> obtener(Long id) {
         return repo.findById(id).map(e -> mapper.map(e, OrganizationDto.class));
     }
 

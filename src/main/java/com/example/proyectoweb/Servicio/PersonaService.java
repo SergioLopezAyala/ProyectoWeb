@@ -3,25 +3,20 @@ package com.example.proyectoweb.Servicio;
 import com.example.proyectoweb.Dto.PersonaDto;
 import com.example.proyectoweb.Modelo.Persona;
 import com.example.proyectoweb.Repo.RepoPersona;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PersonaService {
 
     private final RepoPersona repo;
     private final ModelMapper mapper;
-
-    @Autowired
-    public PersonaService(RepoPersona repo, ModelMapper mapper) {
-        this.repo = repo;
-        this.mapper = mapper;
-    }
-
-    // ==== CRUD básico ====
 
     public PersonaDto crear(PersonaDto dto) {
         Persona e = mapper.map(dto, Persona.class);
@@ -29,7 +24,7 @@ public class PersonaService {
         return mapper.map(e, PersonaDto.class);
     }
 
-    public Optional<PersonaDto> obtenerPorId(Long id) {
+    public Optional<PersonaDto> obtener(Long id) {
         return repo.findById(id).map(e -> mapper.map(e, PersonaDto.class));
     }
 
@@ -58,10 +53,11 @@ public class PersonaService {
         return false;
     }
 
-    // ==== extra útil ====
+    // Para login/lookup por email (útil para AuthController)
     public Optional<PersonaDto> obtenerPorEmail(String email) {
+        // Opción A (rápida, sin modificar el repo):
         return repo.findAll().stream()
-                .filter(p -> email != null && email.equals(p.getEmail()))
+                .filter(p -> p.getEmail() != null && p.getEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .map(p -> mapper.map(p, PersonaDto.class));
     }

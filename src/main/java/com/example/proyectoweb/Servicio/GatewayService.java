@@ -3,23 +3,20 @@ package com.example.proyectoweb.Servicio;
 import com.example.proyectoweb.Dto.GatewayDto;
 import com.example.proyectoweb.Modelo.Gateway;
 import com.example.proyectoweb.Repo.RepoGateway;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class GatewayService {
 
     private final RepoGateway repo;
     private final ModelMapper mapper;
-
-    @Autowired
-    public GatewayService(RepoGateway repo, ModelMapper mapper) {
-        this.repo = repo;
-        this.mapper = mapper;
-    }
 
     public GatewayDto crear(GatewayDto dto) {
         Gateway e = mapper.map(dto, Gateway.class);
@@ -27,7 +24,7 @@ public class GatewayService {
         return mapper.map(e, GatewayDto.class);
     }
 
-    public Optional<GatewayDto> obtenerPorId(Long id) {
+    public Optional<GatewayDto> obtener(Long id) {
         return repo.findById(id).map(e -> mapper.map(e, GatewayDto.class));
     }
 

@@ -3,23 +3,20 @@ package com.example.proyectoweb.Servicio;
 import com.example.proyectoweb.Dto.ArchDto;
 import com.example.proyectoweb.Modelo.Arch;
 import com.example.proyectoweb.Repo.RepoArch;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ArchService {
 
     private final RepoArch repo;
     private final ModelMapper mapper;
-
-    @Autowired
-    public ArchService(RepoArch repo, ModelMapper mapper) {
-        this.repo = repo;
-        this.mapper = mapper;
-    }
 
     public ArchDto crear(ArchDto dto) {
         Arch e = mapper.map(dto, Arch.class);
@@ -27,7 +24,7 @@ public class ArchService {
         return mapper.map(e, ArchDto.class);
     }
 
-    public Optional<ArchDto> obtenerPorId(Long id) {
+    public Optional<ArchDto> obtener(Long id) {
         return repo.findById(id).map(e -> mapper.map(e, ArchDto.class));
     }
 
