@@ -9,5 +9,5 @@ public class ActivityDto {
     private Long id;
     private String name;
     private String type;
-    private String descripcion;
+    private String description;
 }

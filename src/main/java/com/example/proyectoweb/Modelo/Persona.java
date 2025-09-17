@@ -20,15 +20,11 @@ public class Persona {
     @Column(name = "password", nullable=false, length=100)
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "role")
-    private Role role;
 
-    public Persona(Long id, String name, String email, String password, Role role) {
+    public Persona(Long id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
     }
 }

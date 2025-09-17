@@ -23,6 +23,6 @@ public class Mapper {
         if (dto == null) return null;
         return mapper.map(dto, Organization.class);
     }
-    //TODO Agregar demas metodos para conversion con el bean de mapper a todos los objetos que tengan DTO
+    //Si se quiere, se puede agregar demas metodos para conversion con el bean de mapper a todos los objetos que tengan DTO
 
 }

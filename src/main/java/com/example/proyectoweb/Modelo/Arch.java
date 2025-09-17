@@ -13,11 +13,11 @@ public class Arch {
     private Long id;
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "actividadI")
     private Actividad actividadI;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "actividadD")
     private Actividad actividadD;
 

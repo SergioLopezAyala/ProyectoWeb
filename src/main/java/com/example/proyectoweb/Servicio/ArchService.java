@@ -1,7 +1,9 @@
 package com.example.proyectoweb.Servicio;
 
 import com.example.proyectoweb.Dto.ArchDto;
+import com.example.proyectoweb.Modelo.Actividad;
 import com.example.proyectoweb.Modelo.Arch;
+import com.example.proyectoweb.Repo.RepoActividad;
 import com.example.proyectoweb.Repo.RepoArch;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,32 +18,65 @@ import java.util.Optional;
 public class ArchService {
 
     private final RepoArch repo;
-    private final ModelMapper mapper;
+    private final RepoActividad repoActividad;
 
     public ArchDto crear(ArchDto dto) {
-        Arch e = mapper.map(dto, Arch.class);
-        e = repo.save(e);
-        return mapper.map(e, ArchDto.class);
+
+        Actividad actividadI = repoActividad
+                .findById(dto.getActividadI())
+                .orElseThrow(() -> new IllegalArgumentException("El id de la actividad de inicio no existe"));
+        Actividad actividadD = repoActividad
+                .findById(dto.getActividadD())
+                .orElseThrow(() -> new IllegalArgumentException("El id de la actividad de destino no existe"));
+
+        Arch e = new Arch(null, actividadI, actividadD);
+        repo.save(e);
+
+        // Antes: mapper.map(e, ArchDto.class) -> no mapea nested.id
+        return new ArchDto(
+                e.getActividadI() != null ? e.getActividadI().getId() : null,
+                e.getActividadD() != null ? e.getActividadD().getId() : null
+        );
     }
 
     public Optional<ArchDto> obtener(Long id) {
-        return repo.findById(id).map(e -> mapper.map(e, ArchDto.class));
+        return repo.findById(id).map(e -> new ArchDto(
+                e.getActividadI() != null ? e.getActividadI().getId() : null,
+                e.getActividadD() != null ? e.getActividadD().getId() : null
+        ));
     }
 
     public List<ArchDto> listar() {
         List<ArchDto> out = new ArrayList<>();
         for (Arch e : repo.findAll()) {
-            out.add(mapper.map(e, ArchDto.class));
+            out.add(new ArchDto(
+                    e.getActividadI() != null ? e.getActividadI().getId() : null,
+                    e.getActividadD() != null ? e.getActividadD().getId() : null
+            ));
         }
         return out;
     }
 
     public Optional<ArchDto> actualizar(Long id, ArchDto dto) {
         return repo.findById(id).map(existing -> {
-            Arch incoming = mapper.map(dto, Arch.class);
-            incoming.setId(existing.getId());
-            Arch saved = repo.save(incoming);
-            return mapper.map(saved, ArchDto.class);
+            // Antes: mapper.map(dto, Arch.class) → rompía relaciones
+            if (dto.getActividadI() != null) {
+                Actividad actividadI = repoActividad
+                        .findById(dto.getActividadI())
+                        .orElseThrow(() -> new IllegalArgumentException("El id de la actividad de inicio no existe"));
+                existing.setActividadI(actividadI);
+            }
+            if (dto.getActividadD() != null) {
+                Actividad actividadD = repoActividad
+                        .findById(dto.getActividadD())
+                        .orElseThrow(() -> new IllegalArgumentException("El id de la actividad de destino no existe"));
+                existing.setActividadD(actividadD);
+            }
+            Arch saved = repo.save(existing);
+            return new ArchDto(
+                    saved.getActividadI() != null ? saved.getActividadI().getId() : null,
+                    saved.getActividadD() != null ? saved.getActividadD().getId() : null
+            );
         });
     }
 

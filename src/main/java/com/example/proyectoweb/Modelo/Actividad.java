@@ -17,12 +17,12 @@ public class Actividad {
     @Column(name = "type", nullable=false, length=100)
     private String type;
     @Column(name = "description", nullable=false, length=1000)
-    private String descripcion;
+    private String description;
 
-    public Actividad(Long id, String name, String type, String descripcion) {
+    public Actividad(Long id, String name, String type, String description) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.descripcion = descripcion;
+        this.description = description;
     }
 }
