@@ -6,12 +6,11 @@ import com.example.proyectoweb.Modelo.Arch;
 import com.example.proyectoweb.Repo.RepoActividad;
 import com.example.proyectoweb.Repo.RepoArch;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import static com.example.proyectoweb.common.DomainExceptions.*;
 
 @Service
 @RequiredArgsConstructor
@@ -20,71 +19,58 @@ public class ArchService {
     private final RepoArch repo;
     private final RepoActividad repoActividad;
 
+    @Transactional
     public ArchDto crear(ArchDto dto) {
+        if (Objects.equals(dto.getActividadI(), dto.getActividadD()))
+            throw new BadRequest("Origen y destino no pueden ser iguales");
 
-        Actividad actividadI = repoActividad
-                .findById(dto.getActividadI())
-                .orElseThrow(() -> new IllegalArgumentException("El id de la actividad de inicio no existe"));
-        Actividad actividadD = repoActividad
-                .findById(dto.getActividadD())
-                .orElseThrow(() -> new IllegalArgumentException("El id de la actividad de destino no existe"));
+        Actividad ai = repoActividad.findById(dto.getActividadI())
+                .orElseThrow(() -> new NotFound("Actividad origen no existe"));
+        Actividad ad = repoActividad.findById(dto.getActividadD())
+                .orElseThrow(() -> new NotFound("Actividad destino no existe"));
 
-        Arch e = new Arch(null, actividadI, actividadD);
-        repo.save(e);
-
-        // Antes: mapper.map(e, ArchDto.class) -> no mapea nested.id
-        return new ArchDto(
-                e.getActividadI() != null ? e.getActividadI().getId() : null,
-                e.getActividadD() != null ? e.getActividadD().getId() : null
-        );
+        Arch saved = repo.save(new Arch(null, ai, ad));
+        return new ArchDto(saved.getId(), ai.getId(), ad.getId());
     }
 
+    @Transactional(readOnly = true)
     public Optional<ArchDto> obtener(Long id) {
-        return repo.findById(id).map(e -> new ArchDto(
-                e.getActividadI() != null ? e.getActividadI().getId() : null,
-                e.getActividadD() != null ? e.getActividadD().getId() : null
-        ));
+        return repo.findById(id).map(e -> new ArchDto(e.getId(),
+                e.getActividadI().getId(), e.getActividadD().getId()));
     }
 
+    @Transactional(readOnly = true)
     public List<ArchDto> listar() {
         List<ArchDto> out = new ArrayList<>();
-        for (Arch e : repo.findAll()) {
-            out.add(new ArchDto(
-                    e.getActividadI() != null ? e.getActividadI().getId() : null,
-                    e.getActividadD() != null ? e.getActividadD().getId() : null
-            ));
-        }
+        for (Arch e : repo.findAll())
+            out.add(new ArchDto(e.getId(), e.getActividadI().getId(), e.getActividadD().getId()));
         return out;
     }
 
+    @Transactional
     public Optional<ArchDto> actualizar(Long id, ArchDto dto) {
         return repo.findById(id).map(existing -> {
-            // Antes: mapper.map(dto, Arch.class) → rompía relaciones
-            if (dto.getActividadI() != null) {
-                Actividad actividadI = repoActividad
-                        .findById(dto.getActividadI())
-                        .orElseThrow(() -> new IllegalArgumentException("El id de la actividad de inicio no existe"));
-                existing.setActividadI(actividadI);
+            if (dto.getActividadI()!=null) {
+                Actividad ai = repoActividad.findById(dto.getActividadI())
+                        .orElseThrow(() -> new NotFound("Actividad origen no existe"));
+                existing.setActividadI(ai);
             }
-            if (dto.getActividadD() != null) {
-                Actividad actividadD = repoActividad
-                        .findById(dto.getActividadD())
-                        .orElseThrow(() -> new IllegalArgumentException("El id de la actividad de destino no existe"));
-                existing.setActividadD(actividadD);
+            if (dto.getActividadD()!=null) {
+                Actividad ad = repoActividad.findById(dto.getActividadD())
+                        .orElseThrow(() -> new NotFound("Actividad destino no existe"));
+                existing.setActividadD(ad);
             }
+            if (Objects.equals(existing.getActividadI().getId(), existing.getActividadD().getId()))
+                throw new BadRequest("Origen y destino no pueden ser iguales");
             Arch saved = repo.save(existing);
-            return new ArchDto(
-                    saved.getActividadI() != null ? saved.getActividadI().getId() : null,
-                    saved.getActividadD() != null ? saved.getActividadD().getId() : null
-            );
+            return new ArchDto(saved.getId(), saved.getActividadI().getId(), saved.getActividadD().getId());
         });
     }
 
+    @Transactional
     public boolean eliminar(Long id) {
-        if (repo.existsById(id)) {
-            repo.deleteById(id);
-            return true;
-        }
-        return false;
+        if (!repo.existsById(id)) return false;
+        repo.deleteById(id);
+        return true;
     }
 }

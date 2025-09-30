@@ -3,14 +3,11 @@ package com.example.proyectoweb.Controller;
 import com.example.proyectoweb.Dto.ActivityDto;
 import com.example.proyectoweb.Servicio.ActividadService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
-@RestController
-@RequiredArgsConstructor
+@RestController @RequiredArgsConstructor
 @RequestMapping("/api/activities")
 public class ActivityController {
 
@@ -21,21 +18,18 @@ public class ActivityController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<ActivityDto> get(@PathVariable Long id) {
-        return service.obtener(id)
-                .map(ResponseEntity::ok)
+        return service.obtener(id).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/create")
     public ResponseEntity<ActivityDto> create(@RequestBody ActivityDto dto) {
-        ActivityDto created = service.crear(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(dto));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ActivityDto> update(@PathVariable Long id, @RequestBody ActivityDto dto) {
-        return service.actualizar(id, dto)
-                .map(ResponseEntity::ok)
+        return service.actualizar(id, dto).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 

@@ -2,9 +2,7 @@ package com.example.proyectoweb.Dto;
 
 import lombok.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 public class ActivityDto {
     private Long id;
     private String name;

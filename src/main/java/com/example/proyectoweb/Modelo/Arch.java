@@ -5,25 +5,24 @@ import lombok.*;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "Arch")
+@Table(name = "Arch",
+        indexes = {
+                @Index(name="idx_arch_ai", columnList = "actividad_i_id"),
+                @Index(name="idx_arch_ad", columnList = "actividad_d_id")
+        })
 public class Arch {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @ManyToOne
-    @JoinColumn(name = "actividadI")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name="actividad_i_id", nullable=false,
+            foreignKey = @ForeignKey(name="fk_arch_actividad_i"))
     private Actividad actividadI;
 
-    @ManyToOne
-    @JoinColumn(name = "actividadD")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name="actividad_d_id", nullable=false,
+            foreignKey = @ForeignKey(name="fk_arch_actividad_d"))
     private Actividad actividadD;
-
-    public Arch(Long id, Actividad actividadI, Actividad actividadD) {
-        this.id = id;
-        this.actividadI = actividadI;
-        this.actividadD = actividadD;
-    }
 }

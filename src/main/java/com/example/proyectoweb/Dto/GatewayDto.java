@@ -1,13 +1,13 @@
 package com.example.proyectoweb.Dto;
 
+import com.example.proyectoweb.common.GatewayType;
 import lombok.*;
-
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor
 public class GatewayDto {
-    private String type;
+    private Long id;
+    private GatewayType type;
     private List<Long> archIds;
+    private String conditionsJson;
 }

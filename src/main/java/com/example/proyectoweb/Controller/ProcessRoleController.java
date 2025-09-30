@@ -1,35 +1,32 @@
-// Controlador
 package com.example.proyectoweb.Controller;
 
-import com.example.proyectoweb.Dto.GatewayDto;
-import com.example.proyectoweb.Servicio.GatewayService;
+import com.example.proyectoweb.Dto.ActivityRoleLinkDto;
+import com.example.proyectoweb.Dto.ProcessRoleDto;
+import com.example.proyectoweb.Servicio.ProcessRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 @RestController @RequiredArgsConstructor
-@RequestMapping("/api/gateways")
-public class GatewayController {
+@RequestMapping("/api/process-roles")
+public class ProcessRoleController {
 
-    private final GatewayService service;
+    private final ProcessRoleService service;
 
     @GetMapping("/list")
-    public List<GatewayDto> list() { return service.listar(); }
-
-    @GetMapping("/get/{id}")
-    public ResponseEntity<GatewayDto> get(@PathVariable Long id) {
-        return service.obtener(id).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public List<ProcessRoleDto> list(@RequestParam(required = false) Long orgId) {
+        return service.listar(orgId);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<GatewayDto> create(@RequestBody GatewayDto dto) {
+    public ResponseEntity<ProcessRoleDto> create(@RequestBody ProcessRoleDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(dto));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<GatewayDto> update(@PathVariable Long id, @RequestBody GatewayDto dto) {
+    public ResponseEntity<ProcessRoleDto> update(@PathVariable Long id, @RequestBody ProcessRoleDto dto) {
         return service.actualizar(id, dto).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -40,5 +37,15 @@ public class GatewayController {
         if (!"true".equalsIgnoreCase(confirm)) return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED).build();
         return service.eliminar(id) ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/assign-activity")
+    public ActivityRoleLinkDto assign(@RequestParam Long actividadId, @RequestParam Long roleId) {
+        return service.asignarRolActividad(actividadId, roleId);
+    }
+
+    @GetMapping("/{id}/usage")
+    public Map<String, List<Long>> usage(@PathVariable Long id) {
+        return service.dondeSeUsa(id);
     }
 }

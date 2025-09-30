@@ -1,30 +1,32 @@
 package com.example.proyectoweb.Modelo;
 
-
+import com.example.proyectoweb.common.GatewayType;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Gateway")
 public class Gateway {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "type", nullable=false, length=100)
-    private String type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="type", nullable=false, length=20)
+    private GatewayType type;
+
     @OneToMany
-    @Column(name = "archs")
-    private List<Arch> archs;
+    @JoinTable(
+            name = "gateway_arch",
+            joinColumns = @JoinColumn(name = "gateway_id", foreignKey=@ForeignKey(name="fk_gateway_arch_gateway")),
+            inverseJoinColumns = @JoinColumn(name = "arch_id", foreignKey=@ForeignKey(name="fk_gateway_arch_arch"))
+    )
+    private List<Arch> archs = new ArrayList<>();
 
-    public Gateway(Long id, String type) {
-        this.id = id;
-        this.type = type;
-        this.archs = new ArrayList<>();
-    }
+    @Column(name="conditions_json", length=2000)
+    private String conditionsJson;
 }
-

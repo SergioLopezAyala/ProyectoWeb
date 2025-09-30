@@ -1,14 +1,14 @@
 package com.example.proyectoweb.Dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonaDto {
+public class ProcessRoleDto {
     private Long id;
     private String name;
-    private String email;
-    private String password;
     private Long organizationId;
 }

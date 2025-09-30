@@ -1,8 +1,9 @@
+// DTOs Proceso/Historial/Rol
 package com.example.proyectoweb.Dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.proyectoweb.common.ProcessStatus;
+import lombok.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -12,5 +13,9 @@ public class ProcesoDto {
     private String name;
     private String description;
     private String category;
-    private Boolean status;
+    private ProcessStatus status;
+    private Long organizationId;
+    private List<Long> activityIds;
+    private List<Long> archIds;
+    private List<Long> gatewayIds;
 }

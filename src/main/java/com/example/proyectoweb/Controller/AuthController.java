@@ -1,6 +1,5 @@
 package com.example.proyectoweb.Controller;
 
-import com.example.proyectoweb.Dto.PersonaDto;
 import com.example.proyectoweb.Servicio.PersonaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
