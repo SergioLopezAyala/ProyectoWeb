@@ -4,15 +4,18 @@ import com.example.proyectoweb.Controller.ArchController;
 import com.example.proyectoweb.Dto.ArchDto;
 import com.example.proyectoweb.Servicio.ArchService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
-class ArchControllerUnitTest {
+@SpringBootTest
+@ActiveProfiles("test")
+public class ArchControllerUnitTest {
 
     static class ArchServiceStub extends ArchService {
         public ArchServiceStub() { super(null, null); }

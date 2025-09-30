@@ -4,14 +4,18 @@ import com.example.proyectoweb.Controller.PersonaController;
 import com.example.proyectoweb.Dto.PersonaDto;
 import com.example.proyectoweb.Servicio.PersonaService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PersonaControllerUnitTest {
+@SpringBootTest
+@ActiveProfiles("test")
+public class PersonaControllerUnitTest {
 
     static class PersonaServiceStub extends PersonaService {
         public PersonaServiceStub() { super(null, null, null); }

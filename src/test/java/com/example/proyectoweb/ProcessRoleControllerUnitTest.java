@@ -5,11 +5,16 @@ import com.example.proyectoweb.Dto.ActivityRoleLinkDto;
 import com.example.proyectoweb.Dto.ProcessRoleDto;
 import com.example.proyectoweb.Servicio.ProcessRoleService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProcessRoleControllerUnitTest {
+@SpringBootTest
+@ActiveProfiles("test")
+public class ProcessRoleControllerUnitTest {
 
     static class RoleServiceStub extends ProcessRoleService {
         public RoleServiceStub() { super(null,null,null,null,null); }

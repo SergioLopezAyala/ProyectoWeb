@@ -5,7 +5,9 @@ import com.example.proyectoweb.Dto.GatewayDto;
 import com.example.proyectoweb.common.GatewayType;
 import com.example.proyectoweb.Servicio.GatewayService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,8 +15,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
-class GatewayControllerUnitTest {
+@SpringBootTest
+@ActiveProfiles("test")
+public class GatewayControllerUnitTest {
 
     static class GatewayServiceStub extends GatewayService {
         public GatewayServiceStub() { super(null, null); }

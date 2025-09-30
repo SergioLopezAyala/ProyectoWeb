@@ -3,14 +3,14 @@ package com.example.proyectoweb;
 import com.example.proyectoweb.Dto.ArchDto;
 import com.example.proyectoweb.Servicio.ArchService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test unitario sin repos ni mocks. Valida la regla de negocio de self-loop.
- * OJO: usamos nulls en el constructor; este caso no toca repos.
- */
-class ArchServiceSelfLoopTest {
+@SpringBootTest
+@ActiveProfiles("test")
+public class ArchServiceSelfLoopTest {
 
     @Test
     void crear_conMismoOrigenYDestino_debeFallar() {

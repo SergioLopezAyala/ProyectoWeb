@@ -4,14 +4,18 @@ import com.example.proyectoweb.Controller.ActivityController;
 import com.example.proyectoweb.Dto.ActivityDto;
 import com.example.proyectoweb.Servicio.ActividadService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ActivityControllerUnitTest {
+@SpringBootTest
+@ActiveProfiles("test")
+public class ActivityControllerUnitTest {
 
     static class ActividadServiceStub extends ActividadService {
         public ActividadServiceStub() { super(null, null, null); }

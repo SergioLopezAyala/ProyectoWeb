@@ -4,14 +4,17 @@ import com.example.proyectoweb.Controller.OrganizationController;
 import com.example.proyectoweb.Dto.OrganizationDto;
 import com.example.proyectoweb.Servicio.OrganizationService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-class OrganizationControllerUnitTest {
+@SpringBootTest
+@ActiveProfiles("test")
+public class OrganizationControllerUnitTest {
 
     static class OrgServiceStub extends OrganizationService {
         public OrgServiceStub() { super(null, null); }

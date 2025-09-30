@@ -6,7 +6,9 @@ import com.example.proyectoweb.Modelo.ProcessHistory;
 import com.example.proyectoweb.Servicio.ProcesoService;
 import com.example.proyectoweb.common.ProcessStatus;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -16,10 +18,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-/**
- * Unit tests del ProcesoController con stub de servicio (sin BD ni Spring).
- */
-class ProcesoControllerUnitTest {
+@SpringBootTest
+@ActiveProfiles("test")
+public class ProcesoControllerUnitTest {
 
     static class ProcesoServiceStub extends ProcesoService {
         public ProcesoServiceStub() { super(null,null,null,null,null,null); }
