@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController @RequiredArgsConstructor
 @RequestMapping("/api/archs")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ArchController {
 
     private final ArchService service;

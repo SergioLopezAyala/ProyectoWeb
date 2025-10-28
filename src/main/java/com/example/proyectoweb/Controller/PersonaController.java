@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/people")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PersonaController {
 
     private final PersonaService service;

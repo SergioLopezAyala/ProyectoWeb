@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController @RequiredArgsConstructor
 @RequestMapping("/api/processes")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProcesoController {
 
     private final ProcesoService service;

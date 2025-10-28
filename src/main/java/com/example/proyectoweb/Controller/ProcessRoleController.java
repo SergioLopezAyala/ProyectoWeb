@@ -11,6 +11,7 @@ import java.util.Map;
 
 @RestController @RequiredArgsConstructor
 @RequestMapping("/api/process-roles")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProcessRoleController {
 
     private final ProcessRoleService service;
