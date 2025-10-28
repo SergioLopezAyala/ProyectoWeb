@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController @RequiredArgsConstructor
 @RequestMapping("/api/activities")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ActivityController {
 
     private final ActividadService service;
