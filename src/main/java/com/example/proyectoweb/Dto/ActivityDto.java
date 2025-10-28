@@ -8,4 +8,6 @@ public class ActivityDto {
     private String name;
     private String type;
     private String description;
+    private Integer x;
+    private Integer y;
 }

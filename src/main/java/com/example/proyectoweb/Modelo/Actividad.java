@@ -12,12 +12,19 @@ public class Actividad {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name", nullable=false, length=100)
+    @Column
     private String name;
 
-    @Column(name="type", nullable=false, length=100)
+    @Column
     private String type;
 
-    @Column(name="description", nullable=false, length=1000)
+    @Column
     private String description;
+
+    @Column
+    private Integer x;
+
+    @Column
+    private Integer y;
+
 }
