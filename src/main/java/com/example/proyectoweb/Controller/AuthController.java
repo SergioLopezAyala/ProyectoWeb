@@ -1,5 +1,6 @@
 package com.example.proyectoweb.Controller;
 
+import com.example.proyectoweb.Dto.LoginDto;
 import com.example.proyectoweb.Servicio.PersonaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,12 +15,12 @@ public class AuthController {
 
     private final PersonaService personas;
 
-    public record LoginRequest(String email, String password) {}
+
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest req) {
-        return personas.obtenerPorEmail(req.email())
-                .filter(p -> p.getPassword() != null && p.getPassword().equals(req.password()))
+    public ResponseEntity<?> login(@RequestBody LoginDto req) {
+        return personas.obtenerPorEmail(req.getEmail())
+                .filter(p -> p.getPassword() != null && p.getPassword().equals(req.getPassword()))
                 .<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas"));
     }
