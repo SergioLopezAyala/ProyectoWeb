@@ -23,6 +23,11 @@ public class PersonaController {
         return service.obtener(id).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/getEmail/{email}")
+    public ResponseEntity<PersonaDto> getByEmail(@PathVariable String email) {
+        return service.obtenerPorEmail(email).map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @PostMapping("/create")
     public ResponseEntity<PersonaDto> create(@RequestBody PersonaDto dto) {

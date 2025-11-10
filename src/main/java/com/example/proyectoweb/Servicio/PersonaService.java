@@ -34,11 +34,10 @@ public class PersonaService {
         return toDto(e);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Optional<PersonaDto> obtener(Long id) {
         return repo.findById(id).map(this::toDto);
     }
-
     @Transactional(readOnly = true)
     public List<PersonaDto> listar() {
         List<PersonaDto> out = new ArrayList<>();
